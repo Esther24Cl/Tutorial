@@ -1,0 +1,32 @@
+<div class="container">
+    <h1  style="color: white;">Crear Préstamo</h1>
+
+    <form>
+        <mat-form-field>
+            <mat-label>Título del juego</mat-label>
+            <mat-select disableRipple [(ngModel)]="loan.game" name="game">
+                @for (game of games; track game.id){
+                    <mat-option [value]="game">{{game.title}}</mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Nombre del Cliente</mat-label>
+            <mat-select disableRipple [(ngModel)]="loan.client" name="clientName">
+                @for (clientName of clients; track clientName.id){
+                    <mat-option [value]="clientName">{{clientName.name}}</mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+
+        <h3  style="color: white;">Fecha Préstamo</h3>
+            <input type="date" placeholder="Fecha">
+            <input type="date" placeholder="Fecha">
+    </form>
+
+    <div class="buttons">
+        <button mat-stroked-button (click)="onClose()">Cerrar</button>
+        <button mat-flat-button color="primary" (click)="onSave()">Guardar</button>
+    </div>
+</div>

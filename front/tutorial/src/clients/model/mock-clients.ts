@@ -1,4 +1,4 @@
-import { Client } from "./client";
+import { Client } from "./Client";
 
 export const CLIENT_DATA: Client[] = [
     { id: 1, name: "Alice Johnson" },

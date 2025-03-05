@@ -1,0 +1,51 @@
+<div class="container">
+     <!-- <mat-card>
+        <div class="detail">
+            <div class="properties">
+                <div><i>Id </i>+{{loan.id}}</div>
+                <div><i>Título del juego: </i>{{loan.game.title}}</div>
+                <div><i>Nombre del cliente: </i>{{loan.client.name}}</div>
+                <div><i>Fecha de Préstamo: </i>{{loan.startDate}}</div>
+                <div><i>Fecha de caducidad: </i>{{loan.endDate}}</div>
+            </div>
+        </div>
+    </mat-card> -->
+
+    
+    <mat-table [dataSource]="[loan]">
+        <ng-container matColumnDef="id">
+            <mat-header-cell *matHeaderCellDef> Identificador </mat-header-cell>
+            <mat-cell *matCellDef="let loan"> {{loan.id}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="game">
+            <mat-header-cell *matHeaderCellDef> Nombre del juego </mat-header-cell>
+            <mat-cell *matCellDef="let loan"> {{loan.game}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="client">
+            <mat-header-cell *matHeaderCellDef> Nombre del cliente </mat-header-cell>
+            <mat-cell *matCellDef="let loan"> {{loan.client}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="startDate">
+            <mat-header-cell *matHeaderCellDef> Fecha de préstamo </mat-header-cell>
+            <mat-cell *matCellDef="let loan"> {{loan.startDate}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="endDate">
+            <mat-header-cell *matHeaderCellDef> Fecha de devolución </mat-header-cell>
+            <mat-cell *matCellDef="let loan"> {{loan.endDate}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="action">
+            <mat-header-cell *matHeaderCellDef></mat-header-cell>
+            <mat-cell *matCellDef="let loan">
+                <button mat-icon-button color="accent"><mat-icon>clear</mat-icon></button>
+            </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+</div>
