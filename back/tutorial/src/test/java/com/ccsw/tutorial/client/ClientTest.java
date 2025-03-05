@@ -62,10 +62,10 @@ public class ClientTest {
     }
 
     @Test
-    public void deleteExistsCategoryIdShouldDelete() throws Exception {
+    public void deleteExistsClinetIdShouldDelete() throws Exception {
 
-        Client category = mock(Client.class);
-        when(clientRepository.findById(EXISTS_CLIENT_ID)).thenReturn(Optional.of(category));
+        Client client = mock(Client.class);
+        when(clientRepository.findById(EXISTS_CLIENT_ID)).thenReturn(Optional.of(client));
         clientService.delete(EXISTS_CLIENT_ID);
         verify(clientRepository).deleteById(EXISTS_CLIENT_ID);
     }

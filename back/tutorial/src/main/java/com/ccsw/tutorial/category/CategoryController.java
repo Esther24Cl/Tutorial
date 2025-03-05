@@ -61,7 +61,6 @@ public class CategoryController {
     @Operation(summary = "Delete", description = "Method that deletes a Category")
     @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
     public void delete(@PathVariable("id") Long id) throws Exception {
-
         this.categoryService.delete(id);
     }
 }

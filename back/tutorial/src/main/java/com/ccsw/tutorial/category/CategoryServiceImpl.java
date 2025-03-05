@@ -55,7 +55,7 @@ public class CategoryServiceImpl implements CategoryService {
      * {@inheritDoc}
      */
     public void delete(Long id) throws Exception {
-        if (this.get(id) == null) {
+        if (this.categoryRepository.findById(id).orElse(null) == null) {
             throw new Exception("Not exits");
         }
         this.categoryRepository.deleteById(id);

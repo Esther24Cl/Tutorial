@@ -24,7 +24,7 @@ import { DialogConfirmationComponent } from '../../core/dialog-confirmation/dial
 export class ClientListComponent implements OnInit{
   
   dataSource = new MatTableDataSource<Client>();
-  displayedColumns: string[] = ['clientId', 'name', 'action'];
+  displayedColumns: string[] = ['id', 'name', 'action'];
 
   constructor(
     private clientService: ClientsService,
@@ -59,12 +59,12 @@ export class ClientListComponent implements OnInit{
 
   deleteClient(client: Client){
     const dialogRef = this.dialog.open(DialogConfirmationComponent, {
-      data: {title: "Eliminar cliente",  description: "Atención si borra la categoría se perderán sus datos.<br> ¿Desea eliminar la categoría?"}
+      data: {title: "Eliminar cliente",  description: "Atención si borra el cliente se perderán sus datos.<br> ¿Desea eliminar al cliente?"}
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if(result){
-        this.clientService.deleteClient(client.clientId).subscribe(result => {
+        this.clientService.deleteClient(client.id).subscribe(result => {
           this.ngOnInit();
         });
       }

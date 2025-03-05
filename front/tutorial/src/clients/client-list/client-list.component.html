@@ -2,9 +2,9 @@
     <h1>Listado de Clientes</h1>
 
     <mat-table [dataSource]="dataSource">
-        <ng-container matColumnDef="clientId">
+        <ng-container matColumnDef="id">
             <mat-header-cell *matHeaderCellDef>Identificador</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{element.clientId}}</mat-cell>
+            <mat-cell *matCellDef="let element">{{element.id}}</mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="name">

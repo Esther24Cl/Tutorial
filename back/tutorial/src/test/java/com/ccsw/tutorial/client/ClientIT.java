@@ -66,7 +66,7 @@ public class ClientIT {
     }
 
     @Test
-    public void modifyWithExistIdShouldModifyCategory() {
+    public void modifyWithExistIdShouldModifyClient() {
         ClientDto dto = new ClientDto();
         dto.setName(NEW_CLIENT_NAME);
 
@@ -78,9 +78,9 @@ public class ClientIT {
         assertNotNull(response);
         assertEquals(5, response.getBody().size());
 
-        ClientDto categorySearch = response.getBody().stream().filter(item -> item.getid().equals(MODIFY_CLIENT_ID)).findFirst().orElse(null);
-        assertNotNull(categorySearch);
-        assertEquals(NEW_CLIENT_NAME, categorySearch.getName());
+        ClientDto clientSearch = response.getBody().stream().filter(item -> item.getid().equals(MODIFY_CLIENT_ID)).findFirst().orElse(null);
+        assertNotNull(clientSearch);
+        assertEquals(NEW_CLIENT_NAME, clientSearch.getName());
     }
 
     @Test
@@ -96,7 +96,7 @@ public class ClientIT {
 
 
     @Test
-    public void deleteWithExistsIdShouldDeleteCategory() {
+    public void deleteWithExistsIdShouldDeleteClient() {
 
         restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "/" + DELETE_CLIENT_ID,
                 HttpMethod.DELETE, null, Void.class);
