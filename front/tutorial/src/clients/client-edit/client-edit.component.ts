@@ -34,13 +34,9 @@ export class ClientEditComponent implements OnInit{
   }
 
   onSave(){
-    this.clientsService.saveClients(this.client).subscribe({
-      next: () => {
+    this.clientsService.saveClients(this.client).subscribe(
+       () => {
         this.dialogRef.close();
-      },
-      error: (error) => {
-        alert( error.message);
-     }
     });
   }
 
