@@ -40,6 +40,12 @@ public class ClientServiceImpl implements ClientService {
         Client client;
         if (id == null) {
             client = new Client();
+            Iterable<Client> clients = this.clientRepository.findAll();
+            for (Client exitClients : clients) {
+                if (exitClients.getName().equals(dto.getName())) {
+                    throw new IllegalArgumentException("No se pueden crear dos clientes con el mismo nombre.");
+                }
+            }
         } else {
             client = this.clientRepository.findById(id).orElse(null);
         }

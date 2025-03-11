@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { catchError, Observable, of, throwError } from 'rxjs';
 import { Client } from './model/Client';
 import { CLIENT_DATA } from './model/mock-clients';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +22,11 @@ export class ClientsService {
   saveClients(client: Client): Observable<Client>{
     const {id} = client;
     const url = id ? `${this.baseUrl}/${id}` : this.baseUrl;
-    return this.http.put<Client>(url, client);
+    return this.http.put<Client>(url, client).pipe(
+      catchError((error: HttpErrorResponse) => {
+        return throwError(() => new Error(error.message))
+      })
+    );
   }
 
   deleteClient(idClient: number):Observable<any>{
