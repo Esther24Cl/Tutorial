@@ -21,7 +21,7 @@
 
     mat-table {
         margin-top: 10px;
-        margin-bottom: 20px;
+        margin-bottom: 10px;
     
         .mat-header-row {
             background-color:#f5f5f5;
@@ -54,14 +54,14 @@
         }
 
         .mat-column-endDate {
-            flex: 0 0 20%;
+            flex: 0 0 10%;
             justify-content: center;
         }
 
     
         .mat-column-action {
-            flex: 0 0 10%;
-            justify-content: center;
+            flex: 0 0 5%;
+            justify-content: right;
         }
         }
     

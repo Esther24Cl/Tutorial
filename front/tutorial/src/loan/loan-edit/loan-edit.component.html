@@ -21,8 +21,16 @@
         </mat-form-field>
 
         <h3  style="color: white;">Fecha Préstamo</h3>
-            <input type="date" placeholder="Fecha">
-            <input type="date" placeholder="Fecha">
+        <mat-form-field>
+            <mat-label>Fecha de inicio</mat-label>
+            <input matInput type="date" [(ngModel)]="startDate" name="startDate" required>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Fecha de fin</mat-label>
+            <input matInput type="date" [(ngModel)]="endDate" name="endDate" required [min]="startDate">
+        </mat-form-field>
+   
     </form>
 
     <div class="buttons">

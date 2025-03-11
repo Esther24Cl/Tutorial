@@ -1,31 +1,33 @@
 package com.ccsw.tutorial.client.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "client")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Client {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private Long clientId;
+    private Long id;
 
     @Column(name = "name", nullable = false)
     private String name;
 
     /**
-     * @return clientId
+     * @return id
      */
-    public Long getClientId() {
-        return clientId;
+    public Long getId() {
+        return id;
     }
 
     /**
-     * @param clientId new value of {@link #getClientId}.
+     * @param id new value of {@link #getId}.
      */
-    public void setClientId(Long clientId) {
-        this.clientId = clientId;
+    public void setClientId(Long id) {
+        this.id = id;
     }
 
     /**

@@ -2,6 +2,7 @@ package com.ccsw.tutorial.game.model;
 
 import com.ccsw.tutorial.author.model.Author;
 import com.ccsw.tutorial.category.model.Category;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 /**
@@ -10,6 +11,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "game")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Game {
 
     @Id

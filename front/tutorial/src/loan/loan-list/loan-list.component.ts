@@ -18,8 +18,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { LoanEditComponent } from '../loan-edit/loan-edit.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-import { LoanItemComponent } from "./loan-item/loan-item.component";
 import { Category } from '../../category/model/Category';
+import { PageEvent, MatPaginator } from '@angular/material/paginator';
+import { Pageable } from '../../core/model/page/Pageable';
+import { DialogConfirmationComponent } from '../../core/dialog-confirmation/dialog-confirmation.component';
+import { format, toZonedTime } from 'date-fns-tz';
+
 
 @Component({
   selector: 'app-loan-list',
@@ -35,7 +39,7 @@ import { Category } from '../../category/model/Category';
     MatSelectModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    LoanItemComponent
+    MatPaginator,
 ],
   templateUrl: './loan-list.component.html',
   styleUrl: './loan-list.component.scss'
@@ -43,6 +47,10 @@ import { Category } from '../../category/model/Category';
 export class LoanListComponent implements OnInit{
   dataSource = new MatTableDataSource<Loan>();
   displayedColumns: string[] = ['id', 'game', 'client', 'startDate','endDate', 'action'];
+  pageNumber: number = 0;
+  pageSize: number = 5;
+  totalElements: number = 0;
+  timeZone = 'Europe/Madrid';
 
   loans: Loan[];
   games: Game[];
@@ -57,14 +65,29 @@ export class LoanListComponent implements OnInit{
     private loanService: LoanService,
     private gameService: GameService,
     private clientService: ClientsService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
   ){}
   
   ngOnInit(): void {
-    this.loanService.getLoans().subscribe((loans) => (this.dataSource.data = loans));
+    this.loadPage();
+  }
+
+  loadPage(event?: PageEvent){
+   
+    const { pageable, filters } = this.buildPageableAndFilters(event);
+
+    this.loanService.getLoans(pageable, filters).subscribe((data) => {
+      this.dataSource.data = data.content;
+      this.pageNumber = data.pageable.pageNumber;
+      this.pageSize = data.pageable.pageSize;
+      this.totalElements = data.totalElements;
+    });
+
     this.gameService.getGames().subscribe((games) => (this.games = games));
     this.clientService.getClients().subscribe((clients) => (this.clients = clients));
   }
+
+
 
   onCleanFilter(): void{
     this.filterGame = null;
@@ -76,14 +99,45 @@ export class LoanListComponent implements OnInit{
   }
 
   onSearch():void{
-    const gameId = this.filterGame != null ? this.filterGame.id: null;
-    const gameTitle = this.filterGameTitle;
-    const clientId = this.filterClient != null ? this.filterClient.id: null;
-    const clientTitle = this.filterClientName;
-    const date = this.filterDate;
-
-    this.loanService.getLoans().subscribe((loans) => (this.dataSource.data = loans));
     
+    const { pageable, filters } = this.buildPageableAndFilters();
+
+    this.loanService.getLoans(pageable, filters).subscribe((data) => {
+      this.dataSource.data = data.content;
+      this.pageNumber = data.pageable.pageNumber;
+      this.pageSize = data.pageable.pageSize;
+      this.totalElements = data.totalElements;
+    });
+    
+  }
+
+  buildPageableAndFilters(event?: PageEvent): {pageable: Pageable, filters: any } {
+    const pageable: Pageable = {
+      pageNumber: this.pageNumber,
+      pageSize: this.pageSize,
+      sort:[
+        {
+          property: 'id',
+          direction: 'ASC',
+        }
+      ]
+    };
+    
+    if(event != null){
+      pageable.pageSize = event.pageSize;
+      pageable.pageNumber = event.pageIndex;
+    }
+
+    const filters = {
+      gameId: this.filterGame != null ? this.filterGame.id: null,
+      gameTitle: this.filterGameTitle,
+      clientId: this.filterClient != null ? this.filterClient.id: null,
+      clientName: this.filterClientName,
+      date: this.filterDate ? format(this.filterDate, 'yyyy-MM-dd', { timeZone: this.timeZone }) : null,
+    };
+
+    return { pageable, filters };
+
   }
 
   createLoans(){
@@ -96,14 +150,29 @@ export class LoanListComponent implements OnInit{
     });
   }
 
-  editLoans(loan: Loan){
-    const dialogRef = this.dialog.open(LoanEditComponent, {
-      data: { loan: Loan },
+  deleteAuthor(loan: Loan) {
+    const dialogRef = this.dialog.open(DialogConfirmationComponent, {
+        data: {
+            title: 'Eliminar préstamo',
+            description:
+                'Atención si borra el préstamo se perderán sus datos.<br> ¿Desea eliminar el préstamo?',
+        },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-        this.onSearch();
+        if (result) {
+            this.loanService.deleteAuthor(loan.id).subscribe((result) => {
+                this.ngOnInit();
+            });
+        }
     });
   }
+
+  handleDateChange(date: Date) {
+    const zonedDate = toZonedTime(date, this.timeZone);
+    const formattedDate = format(zonedDate, 'yyyy-MM-dd');
+    console.log(formattedDate); // Debería mostrar la fecha correcta
+    this.filterDate = zonedDate; // Actualiza la fecha en tu componente
+  }  
 
 }

@@ -7,6 +7,13 @@ import java.util.List;
 
 public interface ClientService {
 
+    /**
+     * Recupera un {@link Client} a través de su ID
+     *
+     * @param id PK de la entidad
+     * @return {@link Client}
+     */
+    Client get(Long id);
 
     /**
      * Método para recuperar todas las categorías

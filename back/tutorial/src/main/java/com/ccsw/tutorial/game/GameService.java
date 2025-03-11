@@ -6,6 +6,15 @@ import com.ccsw.tutorial.game.model.GameDto;
 import java.util.List;
 
 public interface GameService {
+
+    /**
+     * Recupera un {@link Game} a través de su ID
+     *
+     * @param id PK de la entidad
+     * @return {@link Game}
+     */
+    Game get(Long id);
+
     /**
      * Recupera los juegos filtrando opcionalmente por título y/o categoría
      *

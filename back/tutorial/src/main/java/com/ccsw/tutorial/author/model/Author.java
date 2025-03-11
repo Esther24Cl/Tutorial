@@ -1,5 +1,6 @@
 package com.ccsw.tutorial.author.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 /**
@@ -8,6 +9,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "author")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Author {
 
     @Id
