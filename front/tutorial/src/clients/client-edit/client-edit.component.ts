@@ -22,6 +22,7 @@ import { ClientsService } from '../clients.service';
 export class ClientEditComponent implements OnInit{
   
   client: Client;
+  errorMessage: string;
 
   constructor(
     public dialogRef: MatDialogRef<ClientEditComponent>,
@@ -37,6 +38,10 @@ export class ClientEditComponent implements OnInit{
     this.clientsService.saveClients(this.client).subscribe(
        () => {
         this.dialogRef.close();
+       },
+       error => {
+        this.errorMessage = error;
+        alert(this.errorMessage);
     });
   }
 

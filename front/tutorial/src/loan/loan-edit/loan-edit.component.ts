@@ -50,6 +50,7 @@ export class LoanEditComponent implements OnInit{
   endDate: Date;
   stringStartDate: String;
   stringEndDate: String;
+  errorMessage: string;
 
   constructor(
     public dialogRef: MatDialogRef<LoanEditComponent>,
@@ -80,8 +81,13 @@ export class LoanEditComponent implements OnInit{
     this.loan.endDate = this.endDate;
     this.loan.startDate = this.startDate;
 
-    this.loanService.saveLoan(this.loan).subscribe((result) => {
+    this.loanService.saveLoan(this.loan).subscribe(
+      (result) => {
           this.dialogRef.close();
+        },
+        error => {
+         this.errorMessage = error;
+         alert(this.errorMessage);
     });
   }
 

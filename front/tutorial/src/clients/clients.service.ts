@@ -22,7 +22,12 @@ export class ClientsService {
   saveClients(client: Client): Observable<Client>{
     const {id} = client;
     const url = id ? `${this.baseUrl}/${id}` : this.baseUrl;
-    return this.http.put<Client>(url, client);
+    return this.http.put<Client>(url, client).pipe(
+      catchError((error: HttpErrorResponse) => {
+            let errorMessage = `Error: ${error.error.message}`;
+           return throwError(errorMessage);
+      })
+    );
   }
 
   deleteClient(idClient: number):Observable<any>{

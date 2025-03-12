@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { catchError, Observable, of, throwError } from 'rxjs';
 import { LOAN_DATA } from './model/mock-loan';
 import { Loan } from './model/loan';
 import { Pageable } from '../core/model/page/Pageable';
 import { LoanPage } from './model/LoanPage';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +21,12 @@ export class LoanService {
   }
 
   saveLoan(loan: Loan): Observable<Loan>{
-    return this.http.put<Loan>(this.baseUrl, loan);
+    return this.http.put<Loan>(this.baseUrl, loan).pipe(
+      catchError((error: HttpErrorResponse) => {
+        let errorMessage = `Error: ${error.error.message}`;
+        return throwError(errorMessage);
+      })
+    );
   }
 
   deleteAuthor(idLoan: number): Observable<void> {

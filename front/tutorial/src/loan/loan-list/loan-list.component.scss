@@ -1,5 +1,5 @@
 .container {
-    margin: 20px;
+    margin: 10px;
 
     .filters {
         display: flex;
@@ -11,7 +11,7 @@
 
         .buttons {
             flex: auto;
-            align-self: center;
+            align-self: lef;
 
             button {
                 margin-left: 15px;
@@ -34,7 +34,7 @@
         }
     
         .mat-column-id {
-            flex: 0 0 20%;
+            flex: 0 0 10%;
             justify-content: center;
         }
 
@@ -58,12 +58,17 @@
             justify-content: center;
         }
 
+        .mat-column-action {
+            display: flex;
+            justify-content: center;
+        }
     
         .mat-column-action {
-            flex: 0 0 5%;
-            justify-content: right;
+            flex: 0 10 10%;
+            display: flex;
+            justify-content: flex-start; 
         }
-        }
+    }
     
 
     .buttons {
